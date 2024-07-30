@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .form-field {
+    @apply font-medium rounded-md leading-7 text-sm py-1.5;
+  }
+
+  .form-field-focus {
+    @apply focus:ring-1 focus:ring-primary focus:outline-none;
+  }
+
+  .form-field::placeholder {
+    color: #aeaeae;
+    font-weight: 400;
+  }
+
+  :not(:first-of-type).connector-bar {
+    @apply before:content-[''] before:absolute before:z-[-1] before:bg-gray-200 before:-top-0 before:h-9 before:w-[1px] before:left-[2.15rem] before:-translate-y-full;
+  }
+}

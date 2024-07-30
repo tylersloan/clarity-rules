@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from 'react'
+import React, { forwardRef } from 'react'
 
 type ButtonVariant = {
   key: string
@@ -40,16 +40,12 @@ const BUTTON_JUSTIFY: JustifyVariants = {
   between: 'justify-between',
 }
 
-const BUTTON_COLORS = {
-  primary: '#755dc8',
-  default: '#1f1738',
-  link: '#383355',
-  danger: '#e53e3e',
+const BUTTON_SHAPES = {
+  square: 'px-0 aspect-square',
 }
 
-type ButtonColors = {
-  primary: string
-  link: string
+type ButtonShapes = {
+  square: string
 }
 
 export interface ButtonProps
@@ -57,7 +53,7 @@ export interface ButtonProps
   variant: keyof ButtonVariants
   justify?: keyof JustifyVariants
   className?: string
-  color?: keyof ButtonColors
+  shape?: keyof ButtonShapes
 }
 
 export const Button: React.FC<ButtonProps> = forwardRef<
@@ -65,19 +61,14 @@ export const Button: React.FC<ButtonProps> = forwardRef<
   ButtonProps
 >(
   (
-    {
-      variant = 'solid',
-      justify = 'center',
-      className,
-      color = 'primary',
-      ...props
-    },
+    { variant = 'solid', justify = 'center', className, shape, ...props },
     ref
   ) => {
     return (
       <button
         ref={ref}
         className={`
+          ${shape && BUTTON_SHAPES[shape]}
         ${justify && BUTTON_JUSTIFY[justify]}
         inline-flex items-center form-field
         ${BUTTON_VARIANTS[variant].classList}
