@@ -1,40 +1,39 @@
-# Welcome to Remix!
+# templates/spa
 
-- 📖 [Remix docs](https://remix.run/docs)
+This project was bootstrapped with [Remix SPA Mode](https://remix.run/docs/en/main/guides/spa-mode)
+
+## Setup
+
+To get started, install dependencies.
+
+```shellscript
+npm install
+```
 
 ## Development
 
-Run the dev server:
+You can develop your SPA app just like you would a normal Remix app, via:
 
 ```shellscript
 npm run dev
 ```
 
-## Deployment
+## Production
 
-First, build your app for production:
+When you are ready to build a production version of your app, `npm run build` will generate your assets and an `index.html` for the SPA.
 
-```sh
+```shellscript
 npm run build
 ```
 
-Then run the app in production mode:
+### Preview
 
-```sh
-npm start
+You can preview the build locally with [vite preview](https://vitejs.dev/guide/cli#vite-preview) to serve all routes via the single `index.html` file:
+
+```shellscript
+npm run preview
 ```
 
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+> [!IMPORTANT]
+>
+> `vite preview` is not designed for use as a production server
