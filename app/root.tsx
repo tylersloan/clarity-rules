@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Links,
   Meta,
@@ -8,9 +7,8 @@ import {
 } from '@remix-run/react'
 import '~/styles/tailwind.css'
 import '~/styles/globals.css'
-import { Rules } from '~/pages/home'
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout() {
   return (
     <html lang='en'>
       <head>
@@ -20,8 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Rules />
-        {children}
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>

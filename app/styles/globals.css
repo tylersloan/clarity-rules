@@ -19,3 +19,8 @@ body[data-scroll-locked] {
 button {
   font-size: 0.875rem;
 }
+
+[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

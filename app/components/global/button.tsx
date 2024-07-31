@@ -21,12 +21,12 @@ const BUTTON_VARIANTS: ButtonVariants = {
   solid: {
     key: 'primary',
     classList:
-      'form-field-focus bg-primary text-white border-[1px] border-primary hover:bg-primary/70 hover:border-primary/70 px-4',
+      'form-field-focus bg-primary text-white border-[1px] border-primary hover:bg-primary/70 hover:border-primary/70',
   },
   outline: {
     key: 'outline',
     classList:
-      'form-field-focus bg-white text-default border-[1px] border-[#E3E2E5] hover:bg-neutral-50 shadow-[0_1px_4px_0_#F2EFF6CC_inset] px-4',
+      'form-field-focus bg-white text-default border-[1px] border-[#E3E2E5] hover:bg-neutral-50 shadow-[0_1px_4px_0_#F2EFF6CC_inset]',
   },
   ghost: {
     key: 'ghost',
@@ -41,11 +41,13 @@ const BUTTON_JUSTIFY: JustifyVariants = {
 }
 
 const BUTTON_SHAPES = {
-  square: 'px-0 aspect-square',
+  organic: 'px-4',
+  square: 'aspect-square',
 }
 
 type ButtonShapes = {
   square: string
+  organic: string
 }
 
 export interface ButtonProps
@@ -54,6 +56,7 @@ export interface ButtonProps
   justify?: keyof JustifyVariants
   className?: string
   shape?: keyof ButtonShapes
+  onClick?: (arg: any) => void
 }
 
 export const Button: React.FC<ButtonProps> = forwardRef<
@@ -61,7 +64,13 @@ export const Button: React.FC<ButtonProps> = forwardRef<
   ButtonProps
 >(
   (
-    { variant = 'solid', justify = 'center', className, shape, ...props },
+    {
+      variant = 'solid',
+      justify = 'center',
+      className,
+      shape = 'organic',
+      ...props
+    },
     ref
   ) => {
     return (
@@ -69,11 +78,12 @@ export const Button: React.FC<ButtonProps> = forwardRef<
         ref={ref}
         className={`
           ${shape && BUTTON_SHAPES[shape]}
-        ${justify && BUTTON_JUSTIFY[justify]}
-        inline-flex items-center form-field
-        ${BUTTON_VARIANTS[variant].classList}
-        ${className ?? ''}
-      `}
+          ${justify && BUTTON_JUSTIFY[justify]}
+          inline-flex items-center form-field
+          ${BUTTON_VARIANTS[variant].classList}
+          ${className ?? ''}
+          disabled:text-neutral-400 disabled:cursor-not-allowed
+        `}
         {...props}
       />
     )

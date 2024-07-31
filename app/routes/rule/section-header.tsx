@@ -1,6 +1,11 @@
 import { PlayCircle } from '~/components/other/svgs/play-circle'
 
-export function SectionHeader({ heading, colorClass }) {
+interface SectionHeaderProps {
+  heading: string
+  colorClass: string
+}
+
+export function SectionHeader({ heading, colorClass }: SectionHeaderProps) {
   return (
     <div className='border-b-[1px] px-6 py-5'>
       <div className='flex items-center gap-4'>

@@ -6,18 +6,26 @@ import {
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { Button } from '../button'
 
-type SelectProps = {}
+export type SelectOption = {
+  value: string
+  label: string
+}
 
-const CONDITIONS_ARRAY = [
-  { value: 0, label: 'Family Status is New' },
-  { value: 1, label: 'Family Status is Returning' },
-  { value: 2, label: 'Is Business Owner' },
-  { value: 3, label: 'Family did not file US Taxes' },
-]
+type SelectProps = {
+  onValueChange?: (value: string) => void
+  value: string
+  options: SelectOption[]
+  disabledValues?: string[]
+}
 
-const Select = (props: SelectProps) => {
+const Select = (props: SelectProps & HTMLSelectElement) => {
+  const { options, value, onValueChange, disabledValues } = props
   return (
-    <SelectPrimitive.Root defaultValue={'0'}>
+    <SelectPrimitive.Root
+      defaultValue={value}
+      onValueChange={onValueChange}
+      name={props.name}
+    >
       <SelectPrimitive.Trigger asChild aria-label='selectLabel'>
         <Button
           variant='outline'
@@ -37,12 +45,13 @@ const Select = (props: SelectProps) => {
         </SelectPrimitive.ScrollUpButton>
         <SelectPrimitive.Viewport className='bg-white  p-2 rounded-md shadow-dropdownMenu'>
           <SelectPrimitive.Group>
-            {CONDITIONS_ARRAY.map(({ value, label }) => {
+            {options.map(({ value, label }) => {
               return (
                 <SelectPrimitive.Item
+                  disabled={disabledValues?.includes(value)}
                   key={`${label}-${value}`}
                   value={value.toString()}
-                  className='relative flex items-center px-8 py-2 rounded-md text-sm text-default font-medium focus:bg-gray-100 radix-disabled:opacity-50 focus:outline-none select-none'
+                  className='relative flex items-center px-8 py-2 rounded-md text-sm text-default font-medium focus:bg-gray-100 radix-disabled:opacity-50 focus:outline-none select-none data-[disabled]:bg-neutral-50'
                 >
                   <SelectPrimitive.ItemText>{label}</SelectPrimitive.ItemText>
                   <SelectPrimitive.ItemIndicator className='absolute left-2 inline-flex items-center'>

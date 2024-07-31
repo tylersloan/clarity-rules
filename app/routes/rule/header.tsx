@@ -1,10 +1,14 @@
-import { Button } from '~/components/global/button'
+import { NavLink } from '@remix-run/react'
 
-export function Header() {
+interface HeaderProps {
+  actions: React.ReactNode
+}
+
+export function Header({ actions }: HeaderProps) {
   return (
     <header className='header'>
       <div className='flex items-center justify-between container py2'>
-        <a href='/' className='flex items-center gap-6'>
+        <NavLink to='/' className='flex items-center gap-6'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -20,11 +24,8 @@ export function Header() {
             />
           </svg>
           Advanced
-        </a>
-        <div className='flex items-center gap-2'>
-          <Button variant='outline'>Cancel</Button>
-          <Button variant='solid'>Save and Enable Rule</Button>
-        </div>
+        </NavLink>
+        {actions && <div className='flex items-center gap-2'>{actions}</div>}
       </div>
     </header>
   )
