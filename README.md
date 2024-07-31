@@ -8,6 +8,8 @@ Rules is an automation tool that helps schools identify patterns in applications
 
 [View my technical specification Google doc here](https://docs.google.com/document/d/1PjOkwtvmoq5jzlvF-FF1H0PG2enERwMAhT8Pbe4cV_g/edit?usp=sharing)
 
+[View the demo in production (via vercel)](https://clarity-rules.vercel.app/)
+
 
 ## Remix SPA App
 
