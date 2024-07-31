@@ -1,12 +1,20 @@
 import { useState } from 'react'
+import { useNavigate } from '@remix-run/react'
 import Actions, { DOCUMENTS_OPTIONS } from './actions'
 import Conditions, { CONDITIONS_OPTIONS } from './conditions'
-import ruleHelpers from './rule.helpers'
 import { Header } from './header'
 import { Button } from '~/components/global/button'
 import { IRule } from '../rule.$ruleId'
+import { ConsAndDocs, saveNewRule } from '~/api/rules'
 
-export default function RuleLayout({ rule }: { rule?: IRule | null }) {
+export default function RuleLayout({
+  rule,
+  handleUpdate,
+}: {
+  rule?: IRule | null
+  handleUpdate?: (rule: IRule & ConsAndDocs) => void
+}) {
+  const navigate = useNavigate()
   const [documents, setDocuments] = useState(
     rule?.documents ? rule.documents : [DOCUMENTS_OPTIONS[0]]
   )
@@ -18,11 +26,18 @@ export default function RuleLayout({ rule }: { rule?: IRule | null }) {
     if (window.confirm('Are you sure you want to cancel?')) {
       setDocuments([DOCUMENTS_OPTIONS[0]])
       setConditions([CONDITIONS_OPTIONS[0]])
+      navigate('/')
     }
   }
   const handleSave = async () => {
-    await ruleHelpers.saveNewRule({ documents, conditions })
+    if (rule && handleUpdate) {
+      handleUpdate({ ...rule, documents, conditions })
+    } else {
+      await saveNewRule({ documents, conditions })
+    }
+    navigate('/')
   }
+
   return (
     <>
       <Header

@@ -33,6 +33,28 @@ export default function Conditions({
     const newConditions = conditions.filter((c) => c.value !== item.value)
     setConditions(newConditions)
   }
+  const handleOnValueChange = ({
+    value,
+    condition,
+  }: {
+    value: string
+    condition: SelectOption
+  }) => {
+    const selectedObject = CONDITIONS_OPTIONS.find(
+      (option) => option.value === value
+    )
+    if (selectedObject) {
+      const newConditions: SelectOption[] = conditions.map((c) => {
+        if (c.value === condition.value) {
+          return {
+            ...selectedObject,
+          }
+        }
+        return c
+      })
+      setConditions(newConditions)
+    }
+  }
 
   return (
     <Section>
@@ -53,24 +75,9 @@ export default function Conditions({
                       disabledValues={conditions.map((c) => c.value)}
                       options={CONDITIONS_OPTIONS}
                       value={conditions[idx].value.toString()}
-                      onValueChange={(value) => {
-                        const selectedObject = CONDITIONS_OPTIONS.find(
-                          (option) => option.value === value
-                        )
-                        if (selectedObject) {
-                          const newConditions: SelectOption[] = conditions.map(
-                            (c) => {
-                              if (c.value === condition.value) {
-                                return {
-                                  ...selectedObject,
-                                }
-                              }
-                              return c
-                            }
-                          )
-                          setConditions(newConditions)
-                        }
-                      }}
+                      onValueChange={(value) =>
+                        handleOnValueChange({ value, condition })
+                      }
                     />
                     {conditions.length > 1 && (
                       <div className='text-[#65657A]'>
@@ -110,7 +117,8 @@ export default function Conditions({
                 disabled={conditions.length === CONDITIONS_ARRAY.length}
                 variant='ghost'
                 color='primary'
-                onClick={() =>
+                onClick={(e) => {
+                  e.preventDefault()
                   setConditions([
                     ...conditions,
                     selectHelpers.getFirstUnusedOption(
@@ -118,7 +126,7 @@ export default function Conditions({
                       CONDITIONS_OPTIONS
                     ),
                   ])
-                }
+                }}
               >
                 Add Condition
               </Button>

@@ -24,10 +24,80 @@ const DOCUMENTS_ARRAY: string[] = [
   'Proof of Debt',
 ]
 
+const DOCUMENT_DESCRIPTIONS = [
+  {
+    documentId: '0',
+    description: 'Tax Return',
+  },
+  {
+    documentId: '1',
+    description: 'W2 - Parent A (Previous Year)',
+  },
+  {
+    documentId: '2',
+    description: 'W2 - Parent B (Previous Year)',
+  },
+  {
+    documentId: '3',
+    description: 'W2 - Parent A (Current Year)',
+  },
+  {
+    documentId: '4',
+    description: 'W2 - Parent B (Current Year)',
+  },
+  {
+    documentId: '5',
+    description: 'Paystub',
+  },
+  {
+    documentId: '6',
+    description: 'Business Tax Documents',
+  },
+  {
+    documentId: '7',
+    description: 'Bank Statement',
+  },
+  {
+    documentId: '8',
+    description: '1120S',
+  },
+  {
+    documentId: '9',
+    description: 'K1',
+  },
+  {
+    documentId: '10',
+    description: '1065',
+  },
+  {
+    documentId: '11',
+    description: 'Parent B Waiver Form',
+  },
+  {
+    documentId: '12',
+    description: 'Unemployment Benefits Statement',
+  },
+  {
+    documentId: '13',
+    description: '1099',
+  },
+  {
+    documentId: '14',
+    description: 'State Tax Return',
+  },
+  {
+    documentId: '15',
+    description: 'Proof of Debt',
+  },
+]
+
 export const DOCUMENTS_OPTIONS: SelectOption[] = DOCUMENTS_ARRAY.map(
   (doc, index) => ({
     value: index.toString(),
     label: doc,
+    description:
+      DOCUMENT_DESCRIPTIONS.find((d) => d.documentId === index.toString())
+        ?.description || '',
   })
 )
 
@@ -40,6 +110,29 @@ export default function Actions({ documents, setDocuments }: ActionsProps) {
   const handleDeleteDocument = (item: SelectOption) => {
     const newDocuments = documents.filter((c) => c.value !== item.value)
     setDocuments(newDocuments)
+  }
+
+  const handleOnValueChange = ({
+    value,
+    doc,
+  }: {
+    value: string
+    doc: SelectOption
+  }) => {
+    const selectedObject = DOCUMENTS_OPTIONS.find(
+      (option) => option.value === value
+    )
+    if (selectedObject) {
+      const newDocuments: SelectOption[] = documents.map((d) => {
+        if (d.value === doc.value) {
+          return {
+            ...selectedObject,
+          }
+        }
+        return d
+      })
+      setDocuments(newDocuments)
+    }
   }
 
   return (
@@ -58,20 +151,16 @@ export default function Actions({ documents, setDocuments }: ActionsProps) {
                       disabledValues={documents.map((c) => c.value)}
                       value={documents[idx].value.toString()}
                       options={DOCUMENTS_OPTIONS}
-                      onValueChange={(value) => {
-                        const newDocuments: SelectOption[] = documents.map(
-                          (c) => {
-                            if (c.value === doc.value) {
-                              return { ...c, value }
-                            }
-                            return c
-                          }
-                        )
-                        setDocuments(newDocuments)
-                      }}
+                      onValueChange={(value) =>
+                        handleOnValueChange({ value, doc })
+                      }
                     />
                     <div className='w-full max-w-80'>
-                      <Input placeholder='Description of Document' />
+                      <Input
+                        placeholder='Description of Document'
+                        name={`document-description-${doc.value}`}
+                        defaultValue={doc.description}
+                      />
                     </div>
                     {documents.length > 1 && (
                       <div>
@@ -110,7 +199,8 @@ export default function Actions({ documents, setDocuments }: ActionsProps) {
               <Button
                 disabled={documents.length === DOCUMENTS_ARRAY.length}
                 variant='ghost'
-                onClick={() =>
+                onClick={(e) => {
+                  e.preventDefault()
                   setDocuments([
                     ...documents,
                     selectHelpers.getFirstUnusedOption(
@@ -118,7 +208,7 @@ export default function Actions({ documents, setDocuments }: ActionsProps) {
                       DOCUMENTS_OPTIONS
                     ),
                   ])
-                }
+                }}
               >
                 Create document request
               </Button>

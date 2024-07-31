@@ -1,11 +1,7 @@
 import { useParams } from '@remix-run/react'
-import { Header } from './rule/header'
-import { Button } from '~/components/global/button'
-import Conditions from './rule/conditions'
-import Actions from './rule/actions'
 import { useEffect, useState } from 'react'
 import { SelectOption } from '~/components/global/select/select'
-import { getRuleById } from '~/api/rules'
+import { ConsAndDocs, getRuleById, updateRule } from '~/api/rules'
 import RuleLayout from './rule/layout'
 
 export interface IRule {
@@ -13,7 +9,7 @@ export interface IRule {
   conditionIds: string[]
   conditions: SelectOption[]
   documents: SelectOption[]
-  actionIds: string[]
+  documentIds: string[]
   schoolId: number
   created_at: string
   updated_at?: string | null
@@ -36,5 +32,17 @@ export default function Rule() {
     fetchRule(ruleId)
   }, [ruleId])
 
-  return rule ? <RuleLayout rule={rule} /> : <span>no rule found</span>
+  const handleUpdate = async (rule: IRule) => {
+    try {
+      await updateRule(rule)
+    } catch (error) {
+      console.error('Error updating rule:', error)
+    }
+  }
+
+  return rule ? (
+    <RuleLayout rule={rule} handleUpdate={handleUpdate} />
+  ) : (
+    <span>no rule found</span>
+  )
 }
