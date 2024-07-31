@@ -20,7 +20,7 @@ export default function Index() {
   }, [])
 
   return (
-    <div className='p-4'>
+    <div className='container'>
       <header>
         <img
           className='aspect-[32/9] w-1/4'
