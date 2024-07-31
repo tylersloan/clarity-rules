@@ -122,6 +122,7 @@ export default function Actions({ documents, setDocuments }: ActionsProps) {
     const selectedObject = DOCUMENTS_OPTIONS.find(
       (option) => option.value === value
     )
+
     if (selectedObject) {
       const newDocuments: SelectOption[] = documents.map((d) => {
         if (d.value === doc.value) {
